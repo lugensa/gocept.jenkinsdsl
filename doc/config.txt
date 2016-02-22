@@ -1,0 +1,93 @@
+=======================================
+The sturcture of the configuration file
+=======================================
+
+[DEFAULT]
+=========
+
+Configuration for every job. Can be changed for each individual job later.
+
+vcs
+    VCS used, currently supported ``svn`` or ``hg``
+
+svn.baseurl
+    root URL to find the project
+svn.group
+    Infix which bundles a group of repositories
+svn.name
+    Name of the repository, defaults to section name
+svn.postfix
+    Postfix to build the job for, defaults to ``trunk``
+
+The SVN URL is formed as
+``svn.baseurl + '/' [+ svn.group + '/'] + svn.name + '/' + svn.postfix``
+
+svn.credentials
+    UUID of the credentials
+svn.realm
+    BasicAuth realm for the svn server. When set, additional credentials will be configured.
+svn.scm_browser
+    System of SCM browser, for example ``hudson.plugins.redmine.RedmineRepositoryBrowser``
+
+hg.baseurl
+    root URL to find the project
+hg.group
+    Infix which bundles a group of repositories (e.g. repository owner)
+hg.name
+    Name of the repository, defaults to section name
+hg.branch
+    Branch to build the job for, defaults to ``default``
+
+The HG URL is formed as
+``hg.baseurl + '/' [+ hg.group + '/'] + hg.name``
+
+hg.scm_browser
+    System of SCM browser, for example ``hudson.plugins.mercurial.browser.Kallithea``
+hg.scm_browser_url
+    Location, where the SCM browser can be found
+
+builder
+    Type of builder used, currently supported ``pytest`` or ``custom``
+build.timeout
+    Time after which the build is aborted in minutes.
+build.base.command
+    The basic buildout command
+build.pytest.command
+    Additional command when ``builder = pytest``
+build.custom.command
+    Additional command when ``builder = custom``
+
+Build commands are used as .format templates, which get the content of the section passed.
+
+redmine.website_name
+    Name of a globaly configured Redmine website
+redmine.project_name
+    Name of the project in the Redmine, where the repository browser is defined
+
+
+Individual job desciption
+=========================
+
+An individual job is configured in a separate section, where the sectionname is the name of the job in the jenkins. All configuration options from the defaults can be overwritten.
+
+
+Example
+=======
+
+Example configuration for this package::
+
+    [DEFAULT]
+    hg.baseurl = https://bitbucket.org
+    hg.group = gocept
+
+    builder = pytest
+    build.timeout = 40
+    build.base.command =
+        \$PYTHON_EXE bootstrap.py
+        bin/buildout
+    build.pytest.command =
+        bin/test
+
+    [gocept.jenkinsdsl]
+    vcs = hg
+    builder = pytest

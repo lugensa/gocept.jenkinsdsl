@@ -1,4 +1,5 @@
 from gocept.jenkinsdsl.jenkinsdsl import Handler
+import pytest
 
 
 CAUTION = '// *Caution:* Do not change'
@@ -11,10 +12,19 @@ COPY_NEXT_LINE = 'COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS'
 REDMINE_CLASS = 'class Redmine {'
 
 
-def test_jenkinsdsl__Handler____call____1(tmpdir):
+@pytest.fixture('function')
+def config(tmpdir):
+    """Create a config file with the given content."""
+    def config(content):
+        data = tmpdir.join('config.ini')
+        data.write(content)
+        return data.open()
+    return config
+
+
+def test_jenkinsdsl__Handler____call____1(config):
     """It returns a complete groovy dsl template."""
-    config_file = tmpdir.join('config.ini')
-    config_file.write(r"""
+    config_file = config(r"""
 [DEFAULT]
 hg_baseurl = https://bitbucket.org
 hg_group = gocept
@@ -33,9 +43,7 @@ builder = pytest
 redmine_website_name = gocept
 redmine_project_name = gocept.jenkinsdsl
 """)
-    h = Handler(config_file.open())
-    result = h()
-
+    result = Handler(config_file)()
     assert result.startswith(CAUTION)
     assert VCS_INTERFACE in result
     assert HG_CLASS in result
@@ -60,14 +68,13 @@ redmine_project_name = gocept.jenkinsdsl
     assert expected_jobconfig == result_jobconfig
 
 
-def test_jenkinsdsl__Handler____call____2(tmpdir):
+def test_jenkinsdsl__Handler____call____2(config):
     """It does not render specific snippets if there params are not set."""
-    config_file = tmpdir.join('config.ini')
-    config_file.write(r"""
+    config_file = config(r"""
 [gocept.jenkinsdsl]
 foo = bar
 """)
-    result = Handler(config_file.open())()
+    result = Handler(config_file)()
     assert result.startswith(CAUTION)
     assert VCS_INTERFACE in result
     assert HG_CLASS not in result

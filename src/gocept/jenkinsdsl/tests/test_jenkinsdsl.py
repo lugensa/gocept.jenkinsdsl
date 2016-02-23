@@ -10,6 +10,7 @@ PYTESTBUILDER_CLASS = 'class PytestBuilder extends AbstractBuilder {'
 JOB_CONFIG = 'class JobConfig {'
 COPY_NEXT_LINE = 'COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS'
 REDMINE_CLASS = 'class Redmine {'
+NEW_JOBCONFIG = 'new JobConfig'
 
 
 @pytest.fixture('function')
@@ -62,7 +63,7 @@ redmine_project_name = gocept.jenkinsdsl
         r"additional_commands: 'bin/test'), "
         r"redmine: new Redmine(website_name: 'gocept', "
         r"project_name: 'gocept.jenkinsdsl'))")
-    begin_jobconfig = result.find('new JobConfig')
+    begin_jobconfig = result.find(NEW_JOBCONFIG)
     result_jobconfig = result[
         begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
     assert expected_jobconfig == result_jobconfig
@@ -83,3 +84,23 @@ foo = bar
     assert JOB_CONFIG in result
     assert COPY_NEXT_LINE in result
     assert REDMINE_CLASS not in result
+
+
+def test_jenkinsdsl__Handler____call____3(config):
+    """It does not render specific snippets twice if having > 1 job."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+
+[gocept.testing]
+vcs = hg
+builder = pytest
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert 1 == result.count(HG_CLASS)
+    assert 1 == result.count(ABSTRACTBUILDER_CLASS)
+    assert 1 == result.count(PYTESTBUILDER_CLASS)
+    assert 1 == result.count(JOB_CONFIG)
+    assert 2 == result.count(NEW_JOBCONFIG)

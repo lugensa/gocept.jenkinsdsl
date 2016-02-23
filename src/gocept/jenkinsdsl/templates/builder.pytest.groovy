@@ -8,7 +8,7 @@ class PytestBuilder extends AbstractBuilder {
 
     // Run tests using py.test and publish coverage results.
     public void create_config(job, config) {
-        super.create_config(job, config, this.additional_commands, true)
+        super.create_config(job, config, this.additional_commands)
 
         job.with {
 

@@ -4,7 +4,7 @@ import sys
 import codecs
 from io import StringIO
 from configparser import ConfigParser
-
+from collections import OrderedDict
 
 parser = argparse.ArgumentParser(
     description='Generate DSL to generate Jenkins jobs.')
@@ -80,7 +80,7 @@ class Handler(object):
 
     def _render_jobconfig(self, name, project):
 
-        params = {'name': name}
+        params = OrderedDict((('name', name),))
         if 'vcs' in project:
             vcs = project['vcs']
             params['vcs'] = self._get_groovy_object_from_name(
@@ -109,10 +109,10 @@ class Handler(object):
     def _get_groovy_object_from_name(
             self, prefix, project, class_, **defaults):
         prefix = '{}_'.format(prefix)
-        params = defaults
-        params.update({key.replace(prefix, '', 1): value
-                       for key, value in project.items()
-                       if key.startswith(prefix)})
+        params = OrderedDict(defaults)
+        params.update((key.replace(prefix, '', 1), value)
+                      for key, value in project.items()
+                      if key.startswith(prefix))
         return self._instantiate_groovy_object(class_, params)
 
     def _escape_newlines(self, string):

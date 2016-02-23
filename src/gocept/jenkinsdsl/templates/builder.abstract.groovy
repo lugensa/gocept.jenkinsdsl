@@ -3,19 +3,16 @@ class AbstractBuilder implements Builder {
 
     def base_commands
     def timeout
+    def python_name
 
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
-    private void create_config(job, config, commands, pycheck) {
+    private void create_config(job, config, commands) {
         def cmds = this.base_commands + '\\n' + commands // \\n escaped for python
-
-        if (pycheck) {
-            cmds += "#jenkins-pycheck src/${config.name.tokenize('.')[0]}"
-        }
 
         job.with {
             configure {
                 project -> project / builders / 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' {
-                    pythonName 'Python2.7'
+                    pythonName python_name
                     nature 'shell'
                     clear 'false'
                     systemSitePackages 'false'

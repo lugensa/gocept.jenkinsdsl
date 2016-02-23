@@ -10,11 +10,11 @@ hg_baseurl = https://bitbucket.org
 hg_group = gocept
 
 builder = pytest
-build_timeout = 40
-build_base_command =
+pytest_timeout = 40
+pytest_base_commands =
     \$PYTHON_EXE bootstrap.py
     bin/buildout
-build_pytest_command =
+pytest_additional_commands =
     bin/test
 
 [gocept.jenkinsdsl]
@@ -34,3 +34,9 @@ redmine_project_name = gocept.jenkinsdsl
     assert 'class JobConfig {' in result
     assert 'COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS' in result
     assert 'class Redmine {' in result
+
+    expected_jobconfig = r"new JobConfig(name: 'gocept.jenkinsdsl', vcs: new HG(name: 'gocept.jenkinsdsl', baseurl: 'https://bitbucket.org', group: 'gocept'), builder: new PytestBuilder(timeout: '40', base_commands: '\\$PYTHON_EXE bootstrap.py\\nbin/buildout', additional_commands: 'bin/test'), redmine: new Redmine(website_name: 'gocept', project_name: 'gocept.jenkinsdsl'))"
+    begin_jobconfig = result.find('new JobConfig')
+    result_jobconfig = result[begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
+    assert expected_jobconfig == result_jobconfig
+

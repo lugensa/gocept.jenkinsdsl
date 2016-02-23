@@ -68,6 +68,8 @@ py.test builder
 
 pytest_timeout
     Time after which the build is aborted in minutes.
+pytest_python_name
+    Name of the Python installation in the Jenkins global config.
 pytest_base_commands
     The basic buildout commands
 pytest_additional_commands
@@ -84,6 +86,8 @@ Custom builder
 
 custom_timeout
     Time after which the build is aborted in minutes.
+custom_python_name
+    Name of the Python installation in the Jenkins global config.
 custom_base_commands
     The basic buildout commands
 custom_additional_commands

@@ -5,8 +5,10 @@ import pytest
 CAUTION = '// *Caution:* Do not change'
 VCS_INTERFACE = 'interface VersionControlSystem {}'
 HG_CLASS = 'class HG implements VersionControlSystem {'
+SVN_CLASS = 'class SVN implements VersionControlSystem {'
 ABSTRACTBUILDER_CLASS = 'class AbstractBuilder implements Builder {'
 PYTESTBUILDER_CLASS = 'class PytestBuilder extends AbstractBuilder {'
+CUSTOMBUILDER_CLASS = 'class CustomBuilder extends AbstractBuilder {'
 JOB_CONFIG = 'class JobConfig {'
 COPY_NEXT_LINE = 'COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS'
 REDMINE_CLASS = 'class Redmine {'
@@ -104,3 +106,25 @@ builder = pytest
     assert 1 == result.count(PYTESTBUILDER_CLASS)
     assert 1 == result.count(JOB_CONFIG)
     assert 2 == result.count(NEW_JOBCONFIG)
+
+
+def test_jenkinsdsl__Handler____call____4(config):
+    """It supports SVN and a custom builder."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = svn
+svn_baseurl = http://base.url
+svn_group = gocept
+svn_credentials = <UUID>
+svn_realm = <REALM>
+svn_scm_browser = hudson.plugins.redmine.RedmineRepositoryBrowser
+builder = custom
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert SVN_CLASS in result
+    assert ABSTRACTBUILDER_CLASS in result
+    assert CUSTOMBUILDER_CLASS in result
+    assert ("new SVN(name: 'gocept.jenkinsdsl', baseurl: 'http://base.url'" in
+            result)

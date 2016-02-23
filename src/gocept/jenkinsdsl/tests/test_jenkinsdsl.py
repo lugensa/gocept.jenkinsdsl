@@ -49,3 +49,21 @@ redmine_project_name = gocept.jenkinsdsl
     begin_jobconfig = result.find('new JobConfig')
     result_jobconfig = result[begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
     assert expected_jobconfig == result_jobconfig
+
+
+def test_jenkinsdsl__Handler____call____2(tmpdir):
+    """It does not render specific snippets if there params are not set."""
+    config_file = tmpdir.join('config.ini')
+    config_file.write(r"""
+[gocept.jenkinsdsl]
+foo = bar
+""")
+    result = Handler(config_file.open())()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert HG_CLASS not in result
+    assert ABSTRACTBUILDER_CLASS not in result
+    assert PYTESTBUILDER_CLASS not in result
+    assert JOB_CONFIG in result
+    assert COPY_NEXT_LINE in result
+    assert REDMINE_CLASS not in result

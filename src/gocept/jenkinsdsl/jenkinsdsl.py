@@ -38,7 +38,6 @@ class Handler(object):
         self.required_templates = [
             'header.groovy',
             'interfaces.groovy',
-            'builder.abstract.groovy',
             'jobconfig.groovy',
         ]
 
@@ -75,8 +74,9 @@ class Handler(object):
             self.required_templates.append(component_groovy)
 
     def _require_builder(self, builder):
-        self._require_component('builder.abstract')
-        self._require_component('builder.{}'.format(builder))
+        if builder:
+            self._require_component('builder.abstract')
+            self._require_component('builder.{}'.format(builder))
 
     def _render_jobconfig(self, name, project):
 

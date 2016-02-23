@@ -45,9 +45,18 @@ redmine_project_name = gocept.jenkinsdsl
     assert COPY_NEXT_LINE in result
     assert REDMINE_CLASS in result
 
-    expected_jobconfig = r"new JobConfig(name: 'gocept.jenkinsdsl', vcs: new HG(name: 'gocept.jenkinsdsl', baseurl: 'https://bitbucket.org', group: 'gocept'), builder: new PytestBuilder(timeout: '40', base_commands: '\\$PYTHON_EXE bootstrap.py\\nbin/buildout', additional_commands: 'bin/test'), redmine: new Redmine(website_name: 'gocept', project_name: 'gocept.jenkinsdsl'))"
+    expected_jobconfig = (
+        r"new JobConfig(name: 'gocept.jenkinsdsl', "
+        r"vcs: new HG(name: 'gocept.jenkinsdsl', "
+        r"baseurl: 'https://bitbucket.org', group: 'gocept'), "
+        r"builder: new PytestBuilder(timeout: '40', "
+        r"base_commands: '\\$PYTHON_EXE bootstrap.py\\nbin/buildout', "
+        r"additional_commands: 'bin/test'), "
+        r"redmine: new Redmine(website_name: 'gocept', "
+        r"project_name: 'gocept.jenkinsdsl'))")
     begin_jobconfig = result.find('new JobConfig')
-    result_jobconfig = result[begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
+    result_jobconfig = result[
+        begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
     assert expected_jobconfig == result_jobconfig
 
 

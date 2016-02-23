@@ -21,7 +21,7 @@ class SVN implements VersionControlSystem {
             scm {
                 svn {
                     location(fullurl) {
-                        credentials {this.credentials}
+                        credentials this.credentials
                     }
                 }
             }

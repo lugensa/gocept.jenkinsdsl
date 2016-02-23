@@ -7,61 +7,94 @@ The sturcture of the configuration file
 
 Configuration for every job. Can be changed for each individual job later.
 
+Version control system
+----------------------
+
 vcs
     VCS used, currently supported ``svn`` or ``hg``
 
-svn.baseurl
+Subversion
+++++++++++
+
+svn_baseurl
     root URL to find the project
-svn.group
+svn_group
     Infix which bundles a group of repositories
-svn.name
+svn_name
     Name of the repository, defaults to section name
-svn.postfix
+svn_postfix
     Postfix to build the job for, defaults to ``trunk``
 
 The SVN URL is formed as
-``svn.baseurl + '/' [+ svn.group + '/'] + svn.name + '/' + svn.postfix``
+``svn_baseurl + '/' [+ svn_group + '/'] + svn_name + '/' + svn_postfix``
 
-svn.credentials
+svn_credentials
     UUID of the credentials
-svn.realm
+svn_realm
     BasicAuth realm for the svn server. When set, additional credentials will be configured.
-svn.scm_browser
+svn_scm_browser
     System of SCM browser, for example ``hudson.plugins.redmine.RedmineRepositoryBrowser``
 
-hg.baseurl
+Mercurial
++++++++++
+
+hg_baseurl
     root URL to find the project
-hg.group
+hg_group
     Infix which bundles a group of repositories (e.g. repository owner)
-hg.name
+hg_name
     Name of the repository, defaults to section name
-hg.branch
+hg_branch
     Branch to build the job for, defaults to ``default``
 
 The HG URL is formed as
-``hg.baseurl + '/' [+ hg.group + '/'] + hg.name``
+``hg_baseurl + '/' [+ hg_group + '/'] + hg_name``
 
-hg.scm_browser
+hg_scm_browser
     System of SCM browser, for example ``hudson.plugins.mercurial.browser.Kallithea``
-hg.scm_browser_url
+hg_scm_browser_url
     Location, where the SCM browser can be found
 
-builder
-    Type of builder used, currently supported ``pytest`` or ``custom``
-build.timeout
-    Time after which the build is aborted in minutes.
-build.base.command
-    The basic buildout command
-build.pytest.command
-    Additional command when ``builder = pytest``
-build.custom.command
-    Additional command when ``builder = custom``
+Testbuilder
+-----------
 
 Build commands are used as .format templates, which get the content of the section passed.
 
-redmine.website_name
+builder
+    Type of builder used, currently supported ``pytest`` or ``custom``
+
+py.test builder
++++++++++++++++
+
+pytest_timeout
+    Time after which the build is aborted in minutes.
+pytest_base_commands
+    The basic buildout commands
+pytest_additional_commands
+    Additional commands when ``builder = pytest``. It should contain at least the ``--junitxml`` option to give out test results.
+pytest_junit_filename
+    Name of generated JUnit XML file. It is required when ``builder = pytest``.
+pytest_coverage_filename
+    Name of the possibly created coverage XML file.
+pytest_htmlcov_path
+    Name of the possibly created HTML coverage directory.
+
+Custom builder
+++++++++++++++
+
+custom_timeout
+    Time after which the build is aborted in minutes.
+custom_base_commands
+    The basic buildout commands
+custom_additional_commands
+    Additional command when ``builder = custom``
+
+Redmine
+-------
+
+redmine_website_name
     Name of a globaly configured Redmine website
-redmine.project_name
+redmine_project_name
     Name of the project in the Redmine, where the repository browser is defined
 
 
@@ -77,15 +110,15 @@ Example
 Example configuration for this package::
 
     [DEFAULT]
-    hg.baseurl = https://bitbucket.org
-    hg.group = gocept
+    hg_baseurl = https://bitbucket.org
+    hg_group = gocept
 
     builder = pytest
-    build.timeout = 40
-    build.base.command =
+    pytest_timeout = 40
+    pytest_base_commands =
         \$PYTHON_EXE bootstrap.py
         bin/buildout
-    build.pytest.command =
+    pytest_additional_commands =
         bin/test
 
     [gocept.jenkinsdsl]

@@ -27,7 +27,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            # 'binary-name = gocept.jenkinsdsl.module:function'
+            'jenkinsdsl = gocept.jenkinsdsl.jenkinsdsl:main'
         ],
     },
 

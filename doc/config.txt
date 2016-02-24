@@ -80,6 +80,8 @@ pytest_coverage_filename
     Name of the possibly created coverage XML file.
 pytest_htmlcov_path
     Name of the possibly created HTML coverage directory.
+pytest_pep8_filename
+    Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
 
 Custom builder
 ++++++++++++++

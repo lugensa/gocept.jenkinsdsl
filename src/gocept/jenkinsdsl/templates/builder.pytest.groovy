@@ -5,6 +5,7 @@ class PytestBuilder extends AbstractBuilder {
     def junit_filename
     def coverage_filename
     def htmlcov_path
+    def pep8_filename
 
     // Run tests using py.test and publish coverage results.
     public void create_config(job, config) {
@@ -32,6 +33,14 @@ class PytestBuilder extends AbstractBuilder {
                 configure {
                     project -> project / 'publishers' / 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
                         htmlDir this.htmlcov_path
+                    }
+                }
+            }
+
+            if (this.pep8_filename) {
+                publishers {
+                    violations(100) {
+                        pep8(10, 100, 9999, this.pep8_filename)
                     }
                 }
             }

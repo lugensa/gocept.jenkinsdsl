@@ -42,16 +42,9 @@ class Handler(object):
         ]
 
     def __call__(self):
-        project_configs = []
-        for project_name in self.config.sections():
-            project = self.config[project_name]
-            if 'vcs' in project:
-                self._require_component(project['vcs'])
-            self._require_builder(project.get('builder'))
-            if 'redmine_website_name' in project:
-                self._require_component('redmine')
-            project_configs.append(
-                self._render_jobconfig(project_name, project))
+        project_configs = [
+            self._render_jobconfig(project_name, self.config[project_name])
+            for project_name in self.config.sections()]
 
         for template in self.required_templates:
             self._render_raw_template(template)
@@ -82,14 +75,17 @@ class Handler(object):
 
         params = OrderedDict((('name', name),))
         if 'vcs' in project:
+            self._require_component(project['vcs'])
             vcs = project['vcs']
             params['vcs'] = self._get_groovy_object_from_name(
                 vcs, project, vcs.upper(), name=name)
         if 'builder' in project:
+            self._require_builder(project.get('builder'))
             builder = project['builder']
             params['builder'] = self._get_groovy_object_from_name(
                 builder, project, self.builder_class_map[builder])
         if 'redmine_website_name' in project:
+            self._require_component('redmine')
             params['redmine'] = self._get_groovy_object_from_name(
                 'redmine', project, 'Redmine')
         return self._instantiate_groovy_object('JobConfig', params)

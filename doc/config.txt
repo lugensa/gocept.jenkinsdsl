@@ -7,6 +7,9 @@ The sturcture of the configuration file
 
 Configuration for every job. Can be changed for each individual job later.
 
+For some options a prefix is included in the option name, e.g. ``svn`` for subversion, which represent a class in the resulting groovy code.
+
+
 Version control system
 ----------------------
 
@@ -130,3 +133,21 @@ Example configuration for this package::
     [gocept.jenkinsdsl]
     vcs = hg
     builder = pytest
+
+
+Interpolation
+=============
+
+It is possible to reuse code or configuration snippets by referencing a section option with ``{}``. Nested snippets are basically supported, but the option referenced to should be defined befor the reference. Otherwise the templating results will be undefined. Snippets should not start with a prefix already associated to a class in the groovy file, as these options would be given to the contructor of the groovy class.
+
+Example::
+
+    [DEFAULT]
+
+    pytest_base_commands =
+        bin/buildout -c {buildout_file}
+    pytest_buildout_file = blob.cfg
+    path = path/to/buildout_folder
+    combined_path = {path}/{pytest_buildout_file}
+    custom_base_commands =
+        bin/buildout -c {combined_path}

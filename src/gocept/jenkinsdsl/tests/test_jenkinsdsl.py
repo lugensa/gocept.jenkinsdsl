@@ -1,4 +1,4 @@
-from gocept.jenkinsdsl.jenkinsdsl import Handler
+from gocept.jenkinsdsl.jenkinsdsl import Handler, InterpolatableConfigParser
 import pytest
 
 
@@ -133,3 +133,108 @@ builder = custom
     assert CUSTOMBUILDER_CLASS in result
     assert ("new SVN(name: 'gocept.jenkinsdsl', baseurl: 'http://base.url'" in
             result)
+
+
+def test_jenkinsdsl__Handler____call____5(config):
+    """It supports interpolation within a section value."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+test_options = --junitxml=junit.xml
+pytest_base_commands =
+    bin/test {test_options}
+not_included_field =
+    this_will_be_not_included
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert HG_CLASS in result
+    assert 'bin/test --junitxml=junit.xml' in result
+    assert 'not_included_field' not in result
+    assert 'this_will_be_not_included' not in result
+
+
+def test_jenkinsdsl__Handler____call____6(config):
+    """It supports interpolation within a section value with chained ...
+
+    ... interpolations."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+coverage_options = -cov src
+test_options = --junitxml=junit.xml {coverage_options}
+pytest_base_commands =
+    bin/test {test_options}
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert HG_CLASS in result
+    assert 'bin/test --junitxml=junit.xml -cov src' in result
+
+
+def test_jenkinsdsl__Handler____call____7(config):
+    """It supports interpolation within a section value with chained ...
+
+    ... interpolations and goes not into recursive loops."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+coverage_options = -cov src {test_options}
+test_options = --junitxml=junit.xml {coverage_options}
+pytest_base_commands =
+    bin/test {test_options}
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert HG_CLASS in result
+    expected_options = ('bin/test --junitxml=junit.xml -cov src '
+                        '--junitxml=junit.xml {coverage_options}')
+    assert expected_options == extract_string(
+        expected_options, result, 'bin/test')
+
+
+def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_1(
+        config):
+    """It supports the interpolation in a deterministic order, when the ...
+
+    ... the snippets are chained, even when a loop would occur."""
+    config_file_1 = (r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+coverage_options = -cov src
+test_options = --junitxml=junit.xml {coverage_options}
+pytest_base_commands =
+    bin/test {test_options}
+""")
+    inter_config = InterpolatableConfigParser()
+    inter_config.read_string(config_file_1)
+    inter_config.interpolate_section_values()
+    assert '--junitxml=junit.xml -cov src' == inter_config[
+        'gocept.jenkinsdsl']['test_options']
+    assert '\nbin/test --junitxml=junit.xml -cov src' == inter_config[
+        'gocept.jenkinsdsl']['pytest_base_commands']
+
+    config_file_2 = (r"""
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+coverage_options = -cov src {test_options}
+test_options = --junitxml=junit.xml {coverage_options}
+pytest_base_commands =
+    bin/test {test_options}
+""")
+    inter_config = InterpolatableConfigParser()
+    inter_config.read_string(config_file_2)
+    inter_config.interpolate_section_values()
+    assert '-cov src --junitxml=junit.xml {coverage_options}' == inter_config[
+        'gocept.jenkinsdsl']['coverage_options']
+    assert ('\nbin/test --junitxml=junit.xml '
+            '-cov src --junitxml=junit.xml {coverage_options}') == (
+            inter_config['gocept.jenkinsdsl']['pytest_base_commands'])

@@ -24,6 +24,15 @@ class GroovyExpression(str):
         return self.__class__(super().replace(*args, **kw))
 
 
+class InterpolatableConfigParser(ConfigParser):
+
+    def interpolate_section_values(self):
+        for section in self.sections():
+            section_params = self[section]
+            for option, value in section_params.items():
+                section_params[option] = value.format(**section_params)
+
+
 class Handler(object):
 
     builder_class_map = {
@@ -32,8 +41,9 @@ class Handler(object):
     }
 
     def __init__(self, config_file):
-        self.config = ConfigParser()
+        self.config = InterpolatableConfigParser()
         self.config.read_file(config_file)
+        self.config.interpolate_section_values()
         self.output = StringIO()
         self.required_templates = [
             'header.groovy',

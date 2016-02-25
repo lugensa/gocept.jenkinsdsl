@@ -25,6 +25,13 @@ def config(tmpdir):
     return config
 
 
+def extract_string(string, text, start):
+    """Extract a substring of `text` starting with `start` and with the
+       same length as `string`."""
+    idx_start = text.find(start)
+    return text[idx_start:idx_start+len(string)]
+
+
 def test_jenkinsdsl__Handler____call____1(config):
     """It returns a complete groovy dsl template."""
     config_file = config(r"""
@@ -65,10 +72,8 @@ redmine_project_name = gocept.jenkinsdsl
         r"additional_commands: 'bin/test'), "
         r"redmine: new Redmine(website_name: 'gocept', "
         r"project_name: 'gocept.jenkinsdsl'))")
-    begin_jobconfig = result.find(NEW_JOBCONFIG)
-    result_jobconfig = result[
-        begin_jobconfig: begin_jobconfig + len(expected_jobconfig)]
-    assert expected_jobconfig == result_jobconfig
+    assert expected_jobconfig == extract_string(
+        expected_jobconfig, result, NEW_JOBCONFIG)
 
 
 def test_jenkinsdsl__Handler____call____2(config):

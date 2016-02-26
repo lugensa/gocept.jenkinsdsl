@@ -1,5 +1,6 @@
 import argparse
 import pkg_resources
+import re
 import sys
 import codecs
 from io import StringIO
@@ -9,6 +10,16 @@ from collections import OrderedDict
 parser = argparse.ArgumentParser(
     description='Generate DSL to generate Jenkins jobs.')
 parser.add_argument('config', type=argparse.FileType('r'), help='Config file.')
+
+
+class NestingError(Exception):
+    """Raised when the maximum depth of nesting is reached"""
+
+    def __init__(self, maximum_nested_depth):
+        self.maximum_nested_depth = maximum_nested_depth
+
+    def __str__(self):
+        return repr(self.maximum_nested_depth)
 
 
 class GroovyExpression(str):
@@ -26,11 +37,34 @@ class GroovyExpression(str):
 
 class InterpolatableConfigParser(ConfigParser):
 
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+        self._nesting_count = 0
+        self._maximum_nested_depth = 10
+        reference_pattern = r"{\w+}"
+        self._match_reference = re.compile(reference_pattern)
+
     def interpolate_section_values(self):
         for section in self.sections():
             section_params = self[section]
+            self._maximum_nested_depth = int(section_params.get(
+                'maximum_nested_depth', 10))
             for option, value in section_params.items():
-                section_params[option] = value.format(**section_params)
+                self._nesting_count = 0
+                try:
+                    self._interpolate_option(option, section_params)
+                except NestingError as e:
+                    print('For option `{}` a maximum nesting of {} was '
+                          'reached'.format(option, e))
+                    raise
+
+    def _interpolate_option(self, option, params):
+        if self._nesting_count >= self._maximum_nested_depth:
+            raise NestingError(self._maximum_nested_depth)
+        self._nesting_count += 1
+        params[option] = params[option].format(**params)
+        if self._match_reference.search(params[option]):
+            self._interpolate_option(option, params)
 
 
 class Handler(object):

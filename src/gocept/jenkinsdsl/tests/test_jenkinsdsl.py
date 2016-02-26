@@ -1,4 +1,5 @@
 from gocept.jenkinsdsl.jenkinsdsl import Handler, InterpolatableConfigParser
+from gocept.jenkinsdsl.jenkinsdsl import NestingError
 import pytest
 
 
@@ -177,9 +178,7 @@ pytest_base_commands =
 
 
 def test_jenkinsdsl__Handler____call____7(config):
-    """It supports interpolation within a section value with chained ...
-
-    ... interpolations and goes not into recursive loops."""
+    """It raises a NestingError when cyclic references occur."""
     config_file = config(r"""
 [gocept.jenkinsdsl]
 vcs = hg
@@ -189,14 +188,8 @@ test_options = --junitxml=junit.xml {coverage_options}
 pytest_base_commands =
     bin/test {test_options}
 """)
-    result = Handler(config_file)()
-    assert result.startswith(CAUTION)
-    assert VCS_INTERFACE in result
-    assert HG_CLASS in result
-    expected_options = ('bin/test --junitxml=junit.xml -cov src '
-                        '--junitxml=junit.xml {coverage_options}')
-    assert expected_options == extract_string(
-        expected_options, result, 'bin/test')
+    with pytest.raises(NestingError):
+        Handler(config_file)()
 
 
 def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_1(
@@ -204,7 +197,7 @@ def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_1(
     """It supports the interpolation in a deterministic order, when the ...
 
     ... the snippets are chained, even when a loop would occur."""
-    config_file_1 = (r"""
+    config_file = (r"""
 [gocept.jenkinsdsl]
 vcs = hg
 builder = pytest
@@ -214,14 +207,44 @@ pytest_base_commands =
     bin/test {test_options}
 """)
     inter_config = InterpolatableConfigParser()
-    inter_config.read_string(config_file_1)
+    inter_config.read_string(config_file)
     inter_config.interpolate_section_values()
     assert '--junitxml=junit.xml -cov src' == inter_config[
         'gocept.jenkinsdsl']['test_options']
     assert '\nbin/test --junitxml=junit.xml -cov src' == inter_config[
         'gocept.jenkinsdsl']['pytest_base_commands']
 
-    config_file_2 = (r"""
+
+def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_2(
+        config):
+    """It raises an NestingError if the chain of options is too long."""
+    config_file = (r"""
+[DEFAULT]
+maximum_nested_depth = 2
+
+[gocept.jenkinsdsl]
+vcs = hg
+builder = pytest
+pytest_base_commands =
+    bin/test {test_options}
+test_options = --junitxml=junit.xml {coverage_options}
+coverage_options = -cov src {more_options}
+more_options = -more
+""")
+    inter_config = InterpolatableConfigParser()
+    inter_config.read_string(config_file)
+
+    with pytest.raises(NestingError):
+        inter_config.interpolate_section_values()
+
+
+def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_3(
+        config):
+    """It raises an NestingError if the chain of options is too long ...
+
+    ... at the default depth of 10, especially, when a loop would occur."""
+
+    config_file = (r"""
 [gocept.jenkinsdsl]
 vcs = hg
 builder = pytest
@@ -231,10 +254,7 @@ pytest_base_commands =
     bin/test {test_options}
 """)
     inter_config = InterpolatableConfigParser()
-    inter_config.read_string(config_file_2)
-    inter_config.interpolate_section_values()
-    assert '-cov src --junitxml=junit.xml {coverage_options}' == inter_config[
-        'gocept.jenkinsdsl']['coverage_options']
-    assert ('\nbin/test --junitxml=junit.xml '
-            '-cov src --junitxml=junit.xml {coverage_options}') == (
-            inter_config['gocept.jenkinsdsl']['pytest_base_commands'])
+    inter_config.read_string(config_file)
+    with pytest.raises(NestingError) as errorinfo:
+        inter_config.interpolate_section_values()
+    assert '10' == str(errorinfo.value)

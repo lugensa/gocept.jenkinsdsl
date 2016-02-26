@@ -1,5 +1,5 @@
 =======================================
-The sturcture of the configuration file
+The structure of the configuration file
 =======================================
 
 [DEFAULT]
@@ -7,7 +7,15 @@ The sturcture of the configuration file
 
 Configuration for every job. Can be changed for each individual job later.
 
-For some options a prefix is included in the option name, e.g. ``svn`` for subversion, which represent a class in the resulting groovy code.
+For some options a prefix is included in the option name, e.g. ``svn`` for
+subversion, which represent a class in the resulting groovy code.
+
+General settings
+----------------
+
+maximum_nested_depth
+    The number of nested levels before a ``NestingError`` is raised. Nested
+    levels can occur when interpolation of options is used.
 
 
 Version control system
@@ -61,7 +69,8 @@ hg_scm_browser_url
 Testbuilder
 -----------
 
-Build commands are used as .format templates, which get the content of the section passed.
+Build commands are used as .format templates, which get the content of the
+section passed.
 
 builder
     Type of builder used, currently supported ``pytest`` or ``custom``
@@ -102,15 +111,17 @@ Redmine
 -------
 
 redmine_website_name
-    Name of a globaly configured Redmine website
+    Name of a globally configured Redmine website
 redmine_project_name
     Name of the project in the Redmine, where the repository browser is defined
 
 
-Individual job desciption
-=========================
+Individual job description
+==========================
 
-An individual job is configured in a separate section, where the sectionname is the name of the job in the jenkins. All configuration options from the defaults can be overwritten.
+An individual job is configured in a separate section, where the section name
+is the name of the job in the jenkins. All configuration options from the
+defaults can be overwritten.
 
 
 Example
@@ -138,7 +149,13 @@ Example configuration for this package::
 Interpolation
 =============
 
-It is possible to reuse code or configuration snippets by referencing a section option with ``{}``. Nested snippets are basically supported, but the option referenced to should be defined befor the reference. Otherwise the templating results will be undefined. Snippets should not start with a prefix already associated to a class in the groovy file, as these options would be given to the contructor of the groovy class.
+It is possible to reuse code or configuration snippets by referencing a section
+option with ``{}``. Nested snippets are basically supported, but the option
+referenced to should be defined before the reference. Otherwise the
+interpolation might run in a ``NestingError`` which is controlled by the
+``maximum_nested_depth`` option. Snippets should not start with a prefix
+already associated to a class in the groovy file, as these options would be
+given to the constructor of the groovy class.
 
 Example::
 

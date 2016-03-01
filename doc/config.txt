@@ -15,7 +15,7 @@ General settings
 
 maximum_nested_depth
     The number of nested levels before a ``NestingError`` is raised. Nested
-    levels can occur when interpolation of options is used.
+    levels can occur when interpolation of options is used. The default is ``10``.
 
 
 Version control system
@@ -69,8 +69,11 @@ hg_scm_browser_url
 Testbuilder
 -----------
 
-Build commands are used as .format templates, which get the content of the
-section passed.
+All options can be modified by applying .format templates_ , which get the
+content of the section passed. This is especially useful for build commands
+to reuse configuration.
+
+.. _templates: https://docs.python.org/3.5/library/string.html#format-string-syntax
 
 builder
     Type of builder used, currently supported ``pytest`` or ``custom``
@@ -162,7 +165,7 @@ Example::
     [DEFAULT]
 
     pytest_base_commands =
-        bin/buildout -c {buildout_file}
+        bin/buildout -c {pytest_buildout_file}
     pytest_buildout_file = blob.cfg
     path = path/to/buildout_folder
     combined_path = {path}/{pytest_buildout_file}

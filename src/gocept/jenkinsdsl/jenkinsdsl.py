@@ -13,7 +13,7 @@ parser.add_argument('config', type=argparse.FileType('r'), help='Config file.')
 
 
 class NestingError(Exception):
-    """Raised when the maximum depth of nesting is reached"""
+    """Raised when the maximum depth of nesting is reached."""
 
     def __init__(self, maximum_nested_depth):
         self.maximum_nested_depth = maximum_nested_depth

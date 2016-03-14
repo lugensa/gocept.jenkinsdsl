@@ -49,6 +49,7 @@ pytest_additional_commands =
     bin/test
 
 [gocept.jenkinsdsl]
+description = Buildout and test of the gocept.jenkinsdsl package
 vcs = hg
 builder = pytest
 redmine_website_name = gocept
@@ -66,6 +67,7 @@ redmine_project_name = gocept.jenkinsdsl
 
     expected_jobconfig = (
         r"new JobConfig(name: 'gocept.jenkinsdsl', "
+        r"description: 'Buildout and test of the gocept.jenkinsdsl package', "
         r"vcs: new HG(name: 'gocept.jenkinsdsl', "
         r"baseurl: 'https://bitbucket.org', group: 'gocept'), "
         r"builder: new PytestBuilder(timeout: '40', "

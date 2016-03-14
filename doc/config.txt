@@ -17,6 +17,8 @@ maximum_nested_depth
     The number of nested levels before a ``NestingError`` is raised. Nested
     levels can occur when interpolation of options is used. The default is ``10``.
 
+description
+    Fills the description section of a job.
 
 Version control system
 ----------------------

@@ -117,7 +117,10 @@ class Handler(object):
 
     def _render_jobconfig(self, name, project):
 
-        params = OrderedDict((('name', name),))
+        params = OrderedDict((
+            ('name', name),
+            ('description', project.get('description', '')),
+            ))
         if 'vcs' in project:
             self._require_component(project['vcs'])
             vcs = project['vcs']

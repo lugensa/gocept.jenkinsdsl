@@ -6,6 +6,9 @@ for (config in configs) {
     out.print(config.name + ',')
 
     job = freeStyleJob(config.name)
+    job.with {
+        description(config.description)
+    }
 
     config.vcs.create_config(job, config)
     config.builder.create_config(job, config)

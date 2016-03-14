@@ -2,6 +2,8 @@
 The structure of the configuration file
 =======================================
 
+.. highlight:: ini
+
 [DEFAULT]
 =========
 
@@ -165,7 +167,6 @@ given to the constructor of the groovy class.
 Example::
 
     [DEFAULT]
-
     pytest_base_commands =
         bin/buildout -c {pytest_buildout_file}
     pytest_buildout_file = blob.cfg

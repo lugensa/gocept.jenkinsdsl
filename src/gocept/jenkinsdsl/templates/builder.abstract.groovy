@@ -5,6 +5,13 @@ class AbstractBuilder implements Builder {
     def timeout
     def python_name
 
+    def log_days
+    def log_builds
+
+    def trigger_cron = '@daily'
+    def trigger_scm = 'H/5 * * * *'
+
+
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
     private void create_config(job, config, commands) {
         def cmds = this.base_commands + '\\n' + commands // \\n escaped for python
@@ -29,12 +36,12 @@ class AbstractBuilder implements Builder {
             }
 
             triggers {
-                cron('@daily')
-                scm('H/5 * * * *')
+                cron(this.trigger_cron)
+                scm(this.trigger_scm)
             }
 
             // logRotator(daysToKeepInt=100, numToKeepInt=100) did not work in 1.43
-            logRotator(100, 100)
+            logRotator(this.log_days, this.log_builds)
             checkoutRetryCount()
         }
     }

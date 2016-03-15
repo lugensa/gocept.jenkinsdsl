@@ -102,6 +102,15 @@ pytest_htmlcov_path
 pytest_pep8_filename
     Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
 
+pytest_log_days
+    Maximum days to keep the logs.
+pytest_log_builds
+    Maximum number of builds to keep logs from.
+pytest_trigger_cron
+    Cron trigger for the build in cron style (the default is  ``@daily``)
+pytest_trigger_scm
+    Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+
 Custom builder
 ++++++++++++++
 
@@ -113,6 +122,15 @@ custom_base_commands
     The basic buildout commands
 custom_additional_commands
     Additional command when ``builder = custom``
+
+custom_log_days
+    Maximum days to keep the logs.
+custom_log_builds
+    Maximum number of builds to keep logs from.
+custom_trigger_cron
+    Cron trigger for the build in cron style (the default is  ``@daily``)
+custom_trigger_scm
+    Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
 
 Redmine
 -------

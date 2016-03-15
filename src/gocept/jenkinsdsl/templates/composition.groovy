@@ -12,6 +12,8 @@ for (config in configs) {
 
     config.vcs.create_config(job, config)
     config.builder.create_config(job, config)
-    config.redmine.create_config(job, config)
+    if (config.redmine) {
+       config.redmine.create_config(job, config)
+    }
 }
 out.println()

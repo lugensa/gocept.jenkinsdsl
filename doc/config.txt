@@ -80,7 +80,7 @@ to reuse configuration.
 .. _templates: https://docs.python.org/3.5/library/string.html#format-string-syntax
 
 builder
-    Type of builder used, currently supported ``pytest`` or ``custom``
+    Type of builder used, currently supported ``pytest``, ``integration`` or ``custom``
 
 py.test builder
 +++++++++++++++
@@ -109,6 +109,48 @@ pytest_log_builds
 pytest_trigger_cron
     Cron trigger for the build in cron style (the default is  ``@daily``)
 pytest_trigger_scm
+    Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+
+Integration builder
++++++++++++++++++++
+
+integration_timeout
+    Time after which the build is aborted in minutes.
+integration_python_name
+    Name of the Python installation in the Jenkins global config.
+
+integration_junit_filename
+    Name of generated JUnit XML file.
+integration_coverage_filename
+    Name of the possibly created coverage XML file.
+integration_htmlcov_path
+    Name of the possibly created HTML coverage directory.
+integration_pep8_filename
+    Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
+
+integration_throttle_category
+    Name of a valid throttle category enabled in the jenkins installation
+
+integration_shell_co_solr
+    Commands for a SoLR checkout.
+integration_shell_clean_env
+    Commands for cleaning up the old build environment.
+integration_shell_prepare_bo
+    Commands to prepare the buildout.
+integration_shell_shutdown
+    Commands for the shutdown after finishing tests.
+integration_virtualenv_solr
+    Commands for building the SoLR.
+integration_virtualenv_instance
+    Commands for building and testing the instance.
+
+integration_log_days
+    Maximum days to keep the logs.
+integration_log_builds
+    Maximum number of builds to keep logs from.
+integration_trigger_cron
+    Cron trigger for the build in cron style (the default is ``H 6-18/4 * * 1-5``)
+integration_trigger_scm
     Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
 
 Custom builder

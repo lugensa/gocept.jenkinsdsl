@@ -72,6 +72,7 @@ class Handler(object):
     builder_class_map = {
         'pytest': 'PytestBuilder',
         'custom': 'CustomBuilder',
+        'integration': 'IntegrationBuilder',
     }
 
     def __init__(self, config_file):

@@ -15,10 +15,12 @@ class PytestBuilder extends AbstractBuilder {
         job.with {
 
             publishers {
-                archiveJunit(this.junit_filename) {
-                    retainLongStdout()
-                    testDataPublishers {
-                        publishTestAttachments()
+                if (this.junit_filename) {
+                    archiveJunit(this.junit_filename) {
+                        retainLongStdout()
+                        testDataPublishers {
+                            publishTestAttachments()
+                        }
                     }
                 }
 

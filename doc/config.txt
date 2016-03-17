@@ -153,6 +153,38 @@ integration_trigger_cron
 integration_trigger_scm
     Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
 
+Matrix builds
+-------------
+
+A matrix build can be configured where the build job is executed with different python versions registered at the jenkins installation.
+
+matrix_timeout
+    Time after which the build is aborted in minutes.
+matrix_python_names
+    List of registered python version on the jenkins installation to use. It has to be a comma separated list without whitespaces, e.g. ``Python2.3,Python3.5,Pypy``
+matrix_virtualenv_commands
+    Commands to execute in the buildout.It should contain at least the ``--junitxml`` option to give out test results.
+matrix_junit_filename
+    Name of generated JUnit XML file. It is required when ``builder = matrix``.
+matrix_coverage_filename
+    Name of the possibly created coverage XML file.
+matrix_htmlcov_path
+    Name of the possibly created HTML coverage directory.
+matrix_pep8_filename
+    Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
+
+matrix_log_days
+    Maximum days to keep the logs.
+matrix_log_builds
+    Maximum number of builds to keep logs from.
+matrix_trigger_cron
+    Cron trigger for the build in cron style (the default is  ``@daily``)
+matrix_trigger_scm
+    Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+
+matrix_throttle_category
+    Name of a valid throttle category enabled in the jenkins installation
+
 Custom builder
 ++++++++++++++
 

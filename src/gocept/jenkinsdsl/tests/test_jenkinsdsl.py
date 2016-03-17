@@ -69,12 +69,12 @@ redmine_project_name = gocept.jenkinsdsl
         r"new JobConfig(name: 'gocept.jenkinsdsl', "
         r"description: 'Buildout and test of the gocept.jenkinsdsl package', "
         r"vcs: new HG(name: 'gocept.jenkinsdsl', "
-        r"baseurl: 'https://bitbucket.org', group: 'gocept'), "
-        r"builder: new PytestBuilder(timeout: '40', "
-        r"base_commands: '\\$PYTHON_EXE bootstrap.py\\nbin/buildout', "
-        r"additional_commands: 'bin/test'), "
-        r"redmine: new Redmine(website_name: 'gocept', "
-        r"project_name: 'gocept.jenkinsdsl'))")
+        r"baseurl: '''https://bitbucket.org''', group: '''gocept'''), "
+        r"builder: new PytestBuilder(timeout: '''40''', "
+        r"base_commands: '''\$PYTHON_EXE bootstrap.py\nbin/buildout''', "
+        r"additional_commands: '''bin/test'''), "
+        r"redmine: new Redmine(website_name: '''gocept''', "
+        r"project_name: '''gocept.jenkinsdsl'''))")
     assert expected_jobconfig == extract_string(
         expected_jobconfig, result, NEW_JOBCONFIG)
 
@@ -134,8 +134,8 @@ builder = custom
     assert SVN_CLASS in result
     assert ABSTRACTBUILDER_CLASS in result
     assert CUSTOMBUILDER_CLASS in result
-    assert ("new SVN(name: 'gocept.jenkinsdsl', baseurl: 'http://base.url'" in
-            result)
+    assert ("new SVN(name: 'gocept.jenkinsdsl', "
+            "baseurl: '''http://base.url'''" in result)
 
 
 def test_jenkinsdsl__Handler____call____5(config):

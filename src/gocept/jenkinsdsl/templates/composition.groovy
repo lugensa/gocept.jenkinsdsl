@@ -5,7 +5,12 @@ out.println('COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS')
 for (config in configs) {
     out.print(config.name + ',')
 
-    job = freeStyleJob(config.name)
+    if (config.builder instanceof MatrixBuilder) {
+        job = matrixJob(config.name)
+    }
+    else {
+        job = freeStyleJob(config.name)
+    }
     job.with {
         description(config.description)
     }

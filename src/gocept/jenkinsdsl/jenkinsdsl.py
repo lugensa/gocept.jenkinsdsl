@@ -22,17 +22,24 @@ class NestingError(Exception):
         return repr(self.maximum_nested_depth)
 
 
-class GroovyExpression(str):
-    """Is a rendered groovy expression."""
+class GroovyString(str):
+    """Is a non interpolating groovy string with '''."""
 
     def __repr__(self):
-        return self.__str__()
+        return "'''{}'''".format(self)
 
     def strip(self):
         return self.__class__(super().strip())
 
     def replace(self, *args, **kw):
         return self.__class__(super().replace(*args, **kw))
+
+
+class GroovyExpression(GroovyString):
+    """Is a rendered groovy expression."""
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class InterpolatableConfigParser(ConfigParser):
@@ -73,6 +80,7 @@ class Handler(object):
         'pytest': 'PytestBuilder',
         'custom': 'CustomBuilder',
         'integration': 'IntegrationBuilder',
+        'matrix': 'MatrixBuilder',
     }
 
     def __init__(self, config_file):
@@ -154,13 +162,16 @@ class Handler(object):
             self, prefix, project, class_, **defaults):
         prefix = '{}_'.format(prefix)
         params = OrderedDict(defaults)
-        params.update((key.replace(prefix, '', 1), value)
+        params.update((key.replace(prefix, '', 1), GroovyString(value))
                       for key, value in project.items()
                       if key.startswith(prefix))
         return self._instantiate_groovy_object(class_, params)
 
     def _escape_newlines(self, string):
         return string.replace('\n', '\\n')
+
+    def _escape_dollar(self, string):
+        return string.replace('$', r'\$')
 
 
 def main():

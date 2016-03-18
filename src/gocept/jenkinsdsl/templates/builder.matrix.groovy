@@ -24,7 +24,7 @@ class MatrixBuilder extends AbstractBuilder{
         job.with {
             axes {
                 python(this.python_names.tokenize(','))
-                runSequentially(this.run_sequentially)
+                runSequentially(this.run_sequentially as boolean)
             }
 
             triggers {

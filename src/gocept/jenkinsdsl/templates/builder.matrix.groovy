@@ -9,6 +9,7 @@ class MatrixBuilder extends AbstractBuilder{
     def pep8_filename
 
     def virtualenv_commands
+    def run_sequentially
 
     def log_days
     def log_builds
@@ -23,6 +24,7 @@ class MatrixBuilder extends AbstractBuilder{
         job.with {
             axes {
                 python(this.python_names.tokenize(','))
+                runSequentially(this.run_sequentially)
             }
 
             triggers {

@@ -164,6 +164,9 @@ matrix_python_names
     List of registered python version on the jenkins installation to use. It has to be a comma separated list without whitespaces, e.g. ``Python2.3,Python3.5,Pypy``
 matrix_virtualenv_commands
     Commands to execute in the buildout.It should contain at least the ``--junitxml`` option to give out test results.
+matrix_run_sequentially
+    Flag to force sequential run of different matrix configurations.
+
 matrix_junit_filename
     Name of generated JUnit XML file. It is required when ``builder = matrix``.
 matrix_coverage_filename

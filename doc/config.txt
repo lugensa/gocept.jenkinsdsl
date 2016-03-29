@@ -162,6 +162,8 @@ matrix_timeout
     Time after which the build is aborted in minutes.
 matrix_python_names
     List of registered python version on the jenkins installation to use. It has to be a comma separated list without whitespaces, e.g. ``Python2.3,Python3.5,Pypy``
+matrix_buildout_configs
+    List of buildout configs which is turned into an axis and from which the current value can be used by ``$buildout_config`` in the commands later.
 matrix_virtualenv_commands
     Commands to execute in the buildout.It should contain at least the ``--junitxml`` option to give out test results.
 matrix_run_sequentially

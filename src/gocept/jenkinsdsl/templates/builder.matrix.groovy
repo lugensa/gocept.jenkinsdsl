@@ -2,6 +2,7 @@
 class MatrixBuilder extends AbstractBuilder{
 
     def python_names
+    def buildout_configs
 
     def junit_filename
     def coverage_filename
@@ -25,6 +26,9 @@ class MatrixBuilder extends AbstractBuilder{
             axes {
                 python(this.python_names.tokenize(','))
                 runSequentially(this.run_sequentially as boolean)
+                if (this.buildout_configs) {
+                    text('buildout_config', this.buildout_configs.tokenize(''))
+                }
             }
 
             triggers {

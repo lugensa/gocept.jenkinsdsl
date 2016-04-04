@@ -11,6 +11,8 @@ class AbstractBuilder implements Builder {
     def trigger_cron = '@daily'
     def trigger_scm = 'H/5 * * * *'
 
+    def type = 'freeStyleJob'
+
 
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
     private void create_config(job, config, commands) {

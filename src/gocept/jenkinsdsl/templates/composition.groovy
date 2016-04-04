@@ -5,7 +5,7 @@ out.println('COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS')
 for (config in configs) {
     out.print(config.name + ',')
 
-    if (config.builder instanceof MatrixBuilder) {
+    if (config.builder.type == 'matrixJob') {
         job = matrixJob(config.name)
     }
     else {

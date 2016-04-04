@@ -4,6 +4,8 @@ class MatrixBuilder extends AbstractBuilder{
     def python_names
     def buildout_configs
 
+    def type = 'matrixJob'
+
     def junit_filename
     def coverage_filename
     def htmlcov_path

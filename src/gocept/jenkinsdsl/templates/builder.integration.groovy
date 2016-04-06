@@ -94,7 +94,7 @@ class IntegrationBuilder extends AbstractBuilder {
                     categories([this.throttle_category])
                 }
 
-            logRotator(this.log_days, this.log_builds)
+            logRotator(this.log_days as int, this.log_builds as int)
             checkoutRetryCount()
 
         }

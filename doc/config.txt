@@ -39,6 +39,8 @@ svn_name
     Name of the repository, defaults to section name
 svn_postfix
     Postfix to build the job for, defaults to ``trunk``
+svn_subdirectory
+    Path to the directory to clone the repository.
 
 The SVN URL is formed as
 ``svn_baseurl + '/' [+ svn_group + '/'] + svn_name + '/' + svn_postfix``
@@ -61,6 +63,8 @@ hg_name
     Name of the repository, defaults to section name
 hg_branch
     Branch to build the job for, defaults to ``default``
+hg_subdirectory
+    Path to the directory to clone the repository.
 
 The HG URL is formed as
 ``hg_baseurl + '/' [+ hg_group + '/'] + hg_name``

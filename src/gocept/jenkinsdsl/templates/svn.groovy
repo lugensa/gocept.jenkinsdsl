@@ -7,6 +7,7 @@ class SVN implements VersionControlSystem {
     def credentials = null
     def realm = null
     def scm_browser = null
+    def subdirectory = null
 
     public void create_config(job, config) {
         def fullurl
@@ -22,6 +23,9 @@ class SVN implements VersionControlSystem {
                 svn {
                     location(fullurl) {
                         credentials this.credentials
+                        if (this.subdirectory != null) {
+                            directory(this.subdirectory)
+                        }
                     }
                 }
             }

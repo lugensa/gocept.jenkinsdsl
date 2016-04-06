@@ -6,6 +6,7 @@ class HG implements VersionControlSystem {
     def branch = 'default'
     def scm_browser = null
     def scm_browser_url = null
+    def subdirectory = null
 
     public void create_config(job, config) {
         def fullurl
@@ -26,12 +27,23 @@ class HG implements VersionControlSystem {
 
         job.with {
             scm {
-                hg(fullurl, this.branch) {
-                    hg -> hg / browser(class: this.scm_browser) {
+                hg(fullurl) {
+                    branch(this.branch)
+                    if (this.subdirectory != null) {
+                        subdirectory(this.subdirectory)
+                    }
+                    configure{
+                        hg -> hg / browser(class: this.scm_browser) {
                         url full_scm_browser_url
+                        }
                     }
                 }
             }
+        if ( this.scm_browser != null ) {
+            configure { project ->
+                project / scm / browser (class: this.scm_browser)
+            }
+        }
         }
     }
 }

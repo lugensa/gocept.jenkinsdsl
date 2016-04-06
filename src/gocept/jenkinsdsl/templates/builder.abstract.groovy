@@ -46,13 +46,10 @@ class AbstractBuilder implements Builder {
             logRotator(this.log_days as int, this.log_builds as int)
             checkoutRetryCount()
 
-            if (this.builds_to_trigger){
-                postBuildSteps{
-                    downstreamParameterized {
-                        trigger(this.builds_to_trigger.tokenize(',') as String[]) {
-                        }
 
-                    }
+            if (this.builds_to_trigger){
+                publishers{
+                    downstream(this.builds_to_trigger,tokenize(','))
                 }
             }
         }

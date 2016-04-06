@@ -13,6 +13,8 @@ class AbstractBuilder implements Builder {
 
     def type = 'freeStyleJob'
 
+    def builds_to_trigger
+
 
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
     private void create_config(job, config, commands) {
@@ -45,6 +47,16 @@ class AbstractBuilder implements Builder {
             // logRotator(daysToKeepInt=100, numToKeepInt=100) did not work in 1.43
             logRotator(this.log_days as int, this.log_builds as int)
             checkoutRetryCount()
+
+            if (this.builds_to_trigger){
+                postBuildSteps{
+                    downstreamParameterized {
+                        trigger(this.builds_to_trigger.tokenize(',')) {
+                        }
+
+                    }
+                }
+            }
         }
     }
 }

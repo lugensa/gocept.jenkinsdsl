@@ -32,18 +32,15 @@ class HG implements VersionControlSystem {
                     if (this.subdirectory != null) {
                         subdirectory(this.subdirectory)
                     }
-                    configure{
-                        hg -> hg / browser(class: this.scm_browser) {
-                        url full_scm_browser_url
+                    if (this.scm_browser != null){
+                        configure{
+                            hg -> hg / browser(class: this.scm_browser) {
+                            url full_scm_browser_url
+                            }
                         }
                     }
                 }
             }
-        if ( this.scm_browser != null ) {
-            configure { project ->
-                project / scm / browser (class: this.scm_browser)
-            }
-        }
         }
     }
 }

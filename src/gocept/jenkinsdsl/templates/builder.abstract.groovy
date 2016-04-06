@@ -21,16 +21,14 @@ class AbstractBuilder implements Builder {
         def cmds = this.base_commands + '\\n' + commands // \\n escaped for python
 
         job.with {
-            configure {
-                project -> project / builders / 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' {
-                    pythonName python_name
+            virtualenv {
+                    pythonName this.python_name
                     nature 'shell'
-                    clear 'false'
-                    systemSitePackages 'false'
-                    ignoreExitCode 'false'
+                    clear false
+                    systemSitePackages false
+                    ignoreExitCode false
                     command(cmds)
                 }
-            }
 
             wrappers {
                 timeout {

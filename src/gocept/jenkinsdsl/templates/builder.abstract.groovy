@@ -51,7 +51,7 @@ class AbstractBuilder implements Builder {
             if (this.builds_to_trigger){
                 postBuildSteps{
                     downstreamParameterized {
-                        trigger(this.builds_to_trigger.tokenize(',')) {
+                        trigger(this.builds_to_trigger) {
                         }
 
                     }

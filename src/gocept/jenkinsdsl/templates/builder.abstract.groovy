@@ -14,6 +14,7 @@ class AbstractBuilder implements Builder {
     def type = 'freeStyleJob'
 
     def builds_to_trigger
+    def slack_projectchannel
 
 
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
@@ -49,9 +50,18 @@ class AbstractBuilder implements Builder {
             checkoutRetryCount()
 
 
-            if (this.builds_to_trigger){
-                publishers{
+            publishers{
+                if (this.builds_to_trigger){
                     downstream(this.builds_to_trigger.tokenize(','))
+                }
+                if (this.slack_projectchannel) {
+                    slackNotifications {
+                        projectChannel(this.slack_projectchannel)
+                        notifyAborted()
+                        notifyBackToNormal()
+                        notifyFailure()
+                        notifyUnstable()
+                    }
                 }
             }
         }

@@ -114,6 +114,8 @@ pytest_trigger_cron
     Cron trigger for the build in cron style (the default is  ``@daily``)
 pytest_trigger_scm
     Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+pytest_slack_projectchannel
+    Name of Slack channel for the project for build notifications.
 pytest_builds_to_trigger
     List of builds to trigger after successful build. It has to be a comma separated list without whitespaces.
 
@@ -159,6 +161,8 @@ integration_trigger_cron
     Cron trigger for the build in cron style (the default is ``H 6-18/4 * * 1-5``)
 integration_trigger_scm
     Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+integration_slack_projectchannel
+    Name of Slack channel for the project for build notifications.
 integration_builds_to_trigger
     List of builds to trigger after successful build. It has to be a comma separated list without whitespaces.
 
@@ -198,6 +202,8 @@ matrix_trigger_scm
 
 matrix_throttle_category
     Name of a valid throttle category enabled in the jenkins installation
+matrix_slack_projectchannel
+    Name of Slack channel for the project for build notifications.
 matrix_builds_to_trigger
     List of builds to trigger after successful build. It has to be a comma separated list without whitespaces.
 
@@ -221,6 +227,8 @@ custom_trigger_cron
     Cron trigger for the build in cron style (the default is  ``@daily``)
 custom_trigger_scm
     Cron trigger to fetch the scm in cron style (the default is ``H/5 * * * *``)
+custom_slack_projectchannel
+    Name of Slack channel for the project for build notifications.
 custom_builds_to_trigger
     List of builds to trigger after successful build. It has to be a comma separated list without whitespaces.
 

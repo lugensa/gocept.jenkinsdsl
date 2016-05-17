@@ -55,12 +55,22 @@ class AbstractBuilder implements Builder {
                     downstream(this.builds_to_trigger.tokenize(','))
                 }
                 if (this.slack_projectchannel) {
-                    slackNotifications {
-                        projectChannel('#'+ this.slack_projectchannel)
+                    slackNotifier {
+                        room('#' + this.slack_projectchannel)
+                        startNotification(true)
+                        notifyNotBuilt(true)
                         notifyAborted(true)
+                        notifyFailure(false)
+                        notifySuccess(false)
+                        notifyUnstable(false)
                         notifyBackToNormal(true)
-                        notifyFailure(true)
-                        notifyUnstable(true)
+                        notifyRepeatedFailure(true)
+                        includeTestSummary(true)
+                        includeCustomMessage(false)
+                        customMessage('Hello!')
+                        buildServerUrl(null)
+                        sendAs(null)
+                        commitInfoChoice('NONE')
                     }
                 }
             }

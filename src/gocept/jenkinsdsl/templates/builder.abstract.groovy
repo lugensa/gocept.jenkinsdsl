@@ -56,11 +56,11 @@ class AbstractBuilder implements Builder {
                 }
                 if (this.slack_projectchannel) {
                     slackNotifications {
-                        projectChannel(this.slack_projectchannel)
-                        notifyAborted()
-                        notifyBackToNormal()
-                        notifyFailure()
-                        notifyUnstable()
+                        projectChannel('#'+ this.slack_projectchannel)
+                        notifyAborted(true)
+                        notifyBackToNormal(true)
+                        notifyFailure(true)
+                        notifyUnstable(true)
                     }
                 }
             }

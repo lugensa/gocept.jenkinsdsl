@@ -56,16 +56,18 @@ class AbstractBuilder implements Builder {
                 }
                 if (this.slack_projectchannel) {
                     slackNotifier {
+                        teamDomain('')
+                        authToken('')
                         room('#' + this.slack_projectchannel)
                         startNotification(true)
                         notifyNotBuilt(true)
                         notifyAborted(true)
-                        notifyFailure(false)
+                        notifyFailure(true)
                         notifySuccess(false)
-                        notifyUnstable(false)
+                        notifyUnstable(true)
                         notifyBackToNormal(true)
                         notifyRepeatedFailure(true)
-                        includeTestSummary(true)
+                        includeTestSummary(false)
                         includeCustomMessage(false)
                         customMessage('Hello!')
                         buildServerUrl(null)

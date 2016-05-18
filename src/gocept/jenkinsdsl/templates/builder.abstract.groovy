@@ -59,7 +59,7 @@ class AbstractBuilder implements Builder {
                         teamDomain('')
                         authToken('')
                         room('#' + this.slack_projectchannel)
-                        startNotification(true)
+                        startNotification(false)
                         notifyNotBuilt(true)
                         notifyAborted(true)
                         notifyFailure(true)

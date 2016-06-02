@@ -22,6 +22,10 @@ maximum_nested_depth
 description
     Fills the description section of a job.
 
+disabled
+    If ``true`` the job config is created or modified but the job is disabled.
+    Defaults to ``false``.
+
 Version control system
 ----------------------
 

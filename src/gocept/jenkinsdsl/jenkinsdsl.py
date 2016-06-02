@@ -129,7 +129,8 @@ class Handler(object):
         params = OrderedDict((
             ('name', name),
             ('description', project.get('description', '')),
-            ))
+            ('disabled', project.get('disabled', 'false')),
+        ))
         if 'vcs' in project:
             self._require_component(project['vcs'])
             vcs = project['vcs']

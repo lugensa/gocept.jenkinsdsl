@@ -13,6 +13,9 @@ for (config in configs) {
     }
     job.with {
         description(config.description)
+        if (config.disabled == 'true') {
+            disabled()
+        }
     }
 
     config.vcs.create_config(job, config)

@@ -83,6 +83,8 @@ class MatrixBuilder extends AbstractBuilder{
                     maxPerNode 0
                     maxTotal 1
                     categories([this.throttle_category])
+                    throttleMatrixBuilds(false)
+                    throttleMatrixConfigurations(true)
                 }
 
             wrappers {

@@ -26,6 +26,11 @@ disabled
     If ``true`` the job config is created or modified but the job is disabled.
     Defaults to ``false``.
 
+is_public
+    If ``true`` the job will be visible to the anonymous user. Prerequisite:
+    The ``Matrix Authorization Strategy Plugin`` is installed. The permission
+    ``hudson.model.Item.Read`` is granted  to anonymous. Defaults to ``false``.
+
 Version control system
 ----------------------
 

@@ -130,6 +130,7 @@ class Handler(object):
             ('name', name),
             ('description', project.get('description', '')),
             ('disabled', project.get('disabled', 'false')),
+            ('is_public', project.get('is_public', 'false')),
         ))
         if 'vcs' in project:
             self._require_component(project['vcs'])

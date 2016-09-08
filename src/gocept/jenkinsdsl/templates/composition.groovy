@@ -16,6 +16,11 @@ for (config in configs) {
         if (config.disabled == 'true') {
             disabled()
         }
+        if (config.is_public == 'true') {
+            authorization {
+                permission('hudson.model.Item.Read', 'anonymous')
+            }
+        }
     }
 
     config.vcs.create_config(job, config)

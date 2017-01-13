@@ -15,7 +15,7 @@ class GIT implements VersionControlSystem {
         if (this.group != null) {
             fullurl = fullurl + this.group + '/'
         }
-        fullurl = fullurl + this.name
+        fullurl = fullurl + this.name +'.git'
 
         if (scm_browser_url) {
             full_scm_browser_url = this.scm_browser_url + '/'

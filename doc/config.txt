@@ -83,6 +83,25 @@ hg_scm_browser
 hg_scm_browser_url
     Location, where the SCM browser can be found
 
+
+Git
++++
+
+git_baseurl
+    root URL to find the project
+git_group
+    Infix which bundles a group of repositories (e.g. repository owner)
+git_name
+    Name of the repository, defaults to section name
+git_branch
+    Branch to build the job for, defaults to ``default``
+git_subdirectory
+    Path to the directory to clone the repository.
+
+The GIT URL is formed as
+``git_baseurl + '/' [+ git_group + '/'] + git_name``
+
+
 Testbuilder
 -----------
 

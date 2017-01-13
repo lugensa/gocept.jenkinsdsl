@@ -7,6 +7,7 @@ CAUTION = '// *Caution:* Do not change'
 VCS_INTERFACE = 'interface VersionControlSystem {}'
 HG_CLASS = 'class HG implements VersionControlSystem {'
 SVN_CLASS = 'class SVN implements VersionControlSystem {'
+GIT_CLASS = 'class GIT implements VersionControlSystem {'
 ABSTRACTBUILDER_CLASS = 'class AbstractBuilder implements Builder {'
 PYTESTBUILDER_CLASS = 'class PytestBuilder extends AbstractBuilder {'
 CUSTOMBUILDER_CLASS = 'class CustomBuilder extends AbstractBuilder {'
@@ -194,6 +195,28 @@ pytest_base_commands =
 """)
     with pytest.raises(NestingError):
         Handler(config_file)()
+
+
+def test_jenkinsdsl__Handler____call____8(config):
+    """It supports GIT and a custom builder."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+vcs = git
+git_baseurl = http://base.url
+git_group = gocept
+git_credentials = <UUID>
+git_realm = <REALM>
+git_scm_browser = hudson.plugins.redmine.RedmineRepositoryBrowser
+builder = custom
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert VCS_INTERFACE in result
+    assert GIT_CLASS in result
+    assert ABSTRACTBUILDER_CLASS in result
+    assert CUSTOMBUILDER_CLASS in result
+    assert ("new GIT(name: 'gocept.jenkinsdsl', "
+            "baseurl: '''http://base.url'''" in result)
 
 
 def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_1(

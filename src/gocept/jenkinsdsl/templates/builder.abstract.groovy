@@ -16,6 +16,8 @@ class AbstractBuilder implements Builder {
     def builds_to_trigger
     def slack_projectchannel
 
+    def cloc_filename
+
 
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
     private void create_config(job, config, commands) {
@@ -73,6 +75,12 @@ class AbstractBuilder implements Builder {
                         buildServerUrl(null)
                         sendAs(null)
                         commitInfoChoice('NONE')
+                    }
+                }
+                if (this.cloc_filename) {
+                    slocCount {
+                        pattern(this.cloc_filename)
+                        encoding('UTF-8')
                     }
                 }
             }

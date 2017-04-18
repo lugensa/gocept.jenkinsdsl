@@ -135,6 +135,9 @@ pytest_htmlcov_path
 pytest_pep8_filename
     Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
 
+pytest_cloc_filename
+    Name of the possibly created cloc (Count Lines Of Code) output. Activates the slocCount publisher.
+
 pytest_log_days
     Maximum days to keep the logs.
 pytest_log_builds
@@ -165,6 +168,9 @@ integration_htmlcov_path
     Name of the possibly created HTML coverage directory.
 integration_pep8_filename
     Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
+
+integration_cloc_filename
+    Name of the possibly created cloc (Count Lines Of Code) output. Activates the slocCount publisher.
 
 integration_throttle_category
     Name of a valid throttle category enabled in the jenkins installation
@@ -220,6 +226,9 @@ matrix_htmlcov_path
 matrix_pep8_filename
     Name of the possibly created pep8 logfile. ``pep8`` should be called in commands.
 
+matrix_cloc_filename
+    Name of the possibly created cloc (Count Lines Of Code) output. Activates the slocCount publisher.
+
 matrix_log_days
     Maximum days to keep the logs.
 matrix_log_builds
@@ -247,6 +256,9 @@ custom_base_commands
     The basic buildout commands
 custom_additional_commands
     Additional command when ``builder = custom``
+
+custom_cloc_filename
+    Name of the possibly created cloc (Count Lines Of Code) output. Activates the slocCount publisher.
 
 custom_log_days
     Maximum days to keep the logs.

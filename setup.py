@@ -12,7 +12,7 @@ setup(
     version='0.1.dev0',
 
     install_requires=[
-        'setuptools',
+        'setuptools >= 30',
     ],
 
     extras_require={

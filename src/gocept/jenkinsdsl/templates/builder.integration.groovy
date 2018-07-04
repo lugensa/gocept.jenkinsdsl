@@ -49,7 +49,7 @@ class IntegrationBuilder extends AbstractBuilder {
                     nature 'shell'
                     clear false
                     systemSitePackages false
-                    ignoreExitCode false
+                    ignoreExitCode true
                     command(virtualenv_instance)
                 }
                 shell(shell_shutdown)

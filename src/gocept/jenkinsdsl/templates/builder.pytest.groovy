@@ -16,7 +16,6 @@ class PytestBuilder extends AbstractBuilder {
             publishers {
                 if (this.junit_filename) {
                     archiveJunit(this.junit_filename) {
-                        retainLongStdout()
                         testDataPublishers {
                             publishTestAttachments()
                         }

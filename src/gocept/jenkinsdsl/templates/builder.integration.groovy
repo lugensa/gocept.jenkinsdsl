@@ -57,7 +57,6 @@ class IntegrationBuilder extends AbstractBuilder {
 
             publishers {
                 archiveJunit(this.junit_filename) {
-                    retainLongStdout()
                     testDataPublishers {
                         publishTestAttachments()
                     }

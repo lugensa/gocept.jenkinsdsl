@@ -31,6 +31,11 @@ is_public
     The ``Matrix Authorization Strategy Plugin`` is installed. The permission
     ``hudson.model.Item.Read`` is granted  to anonymous. Defaults to ``false``.
 
+notification_credential_id
+    ID of the global credentials to be used for notification via the
+    notifications plug-in.
+
+
 Version control system
 ----------------------
 

@@ -54,18 +54,20 @@ class AbstractBuilder implements Builder {
             checkoutRetryCount()
 
             if (this.notification_credential_id){
-                endpoints {
-                    endpoint {
-                        urlInfo {
-                        urlType('SECRET')
-                        urlOrId(this.notification_credential_id)
+                hudsonNotificationProperty {
+                    endpoints {
+                        endpoint {
+                            urlInfo {
+                            urlType('SECRET')
+                            urlOrId(this.notification_credential_id)
+                            }
+                        event('finalized')
+                        format('JSON')
+                        loglines(0)
+                        protocol('HTTP')
+                        retries(0)
+                        timeout(30000)
                         }
-                    event('finalized')
-                    format('JSON')
-                    loglines(0)
-                    protocol('HTTP')
-                    retries(0)
-                    timeout(30000)
                     }
                 }
             }

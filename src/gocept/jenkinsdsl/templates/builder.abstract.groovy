@@ -53,20 +53,22 @@ class AbstractBuilder implements Builder {
             logRotator(this.log_days as int, this.log_builds as int)
             checkoutRetryCount()
 
-            if (this.notification_credential_id){
-                hudsonNotificationProperty {
-                    endpoints {
-                        endpoint {
-                            urlInfo {
-                            urlType('SECRET')
-                            urlOrId(this.notification_credential_id)
+            properties {
+                if (this.notification_credential_id){
+                    hudsonNotificationProperty {
+                        endpoints {
+                            endpoint {
+                                urlInfo {
+                                urlType('SECRET')
+                                urlOrId(this.notification_credential_id)
+                                }
+                            event('finalized')
+                            format('JSON')
+                            loglines(0)
+                            protocol('HTTP')
+                            retries(0)
+                            timeout(30000)
                             }
-                        event('finalized')
-                        format('JSON')
-                        loglines(0)
-                        protocol('HTTP')
-                        retries(0)
-                        timeout(30000)
                         }
                     }
                 }

@@ -7,5 +7,6 @@ class JobConfig {
     public VersionControlSystem vcs
     public Builder builder
     def redmine = null // new Redmine(name: 'relaunch-verdi-p2')
+    def notification = null // new Notification(credatial_id: 'ci.gocept.com')
 
 }

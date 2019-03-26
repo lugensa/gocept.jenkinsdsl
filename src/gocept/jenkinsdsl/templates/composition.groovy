@@ -28,5 +28,8 @@ for (config in configs) {
     if (config.redmine) {
        config.redmine.create_config(job, config)
     }
+    if (config.notification) {
+       config.notification.create_config(job, config)
+    }
 }
 out.println()

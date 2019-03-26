@@ -18,9 +18,6 @@ class AbstractBuilder implements Builder {
 
     def cloc_filename
 
-    def notification_credential_id
-
-
     // Create configuration for ShiningPanda, set ENV and bootstrap project.
     private void create_config(job, config, commands) {
         def cmds = this.base_commands + '\\n' + commands // \\n escaped for python
@@ -52,27 +49,6 @@ class AbstractBuilder implements Builder {
             // logRotator(daysToKeepInt=100, numToKeepInt=100) did not work in 1.43
             logRotator(this.log_days as int, this.log_builds as int)
             checkoutRetryCount()
-
-            properties {
-                if (this.notification_credential_id){
-                    hudsonNotificationProperty {
-                        endpoints {
-                            endpoint {
-                                urlInfo {
-                                urlType('SECRET')
-                                urlOrId(this.notification_credential_id)
-                                }
-                            event('finalized')
-                            format('JSON')
-                            loglines(0)
-                            protocol('HTTP')
-                            retries(0)
-                            timeout(30000)
-                            }
-                        }
-                    }
-                }
-            }
 
             publishers{
                 if (this.builds_to_trigger){

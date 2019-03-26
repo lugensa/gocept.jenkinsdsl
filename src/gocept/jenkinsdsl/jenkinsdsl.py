@@ -146,6 +146,10 @@ class Handler(object):
             self._require_component('redmine')
             params['redmine'] = self._get_groovy_object_from_name(
                 'redmine', project, 'Redmine')
+        if 'notification_credential_id' in project:
+            self._require_component('notification')
+            params['notification'] = self._get_groovy_object_from_name(
+                'notification', project, 'Notification')
         return self._instantiate_groovy_object('JobConfig', params)
 
     def _put_out_jobconfig_list(self, configs):

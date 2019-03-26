@@ -15,6 +15,7 @@ JOB_CONFIG = 'class JobConfig {'
 COPY_NEXT_LINE = 'COPY NEXT LINE MANUALLY TO POST-BUILD-ACTIONS'
 REDMINE_CLASS = 'class Redmine {'
 NEW_JOBCONFIG = 'new JobConfig'
+NOTIFICATION_CLASS = 'class Notification {'
 
 
 @pytest.fixture('function')
@@ -217,6 +218,20 @@ builder = custom
     assert CUSTOMBUILDER_CLASS in result
     assert ("new GIT(name: 'gocept.jenkinsdsl', "
             "baseurl: '''http://base.url'''" in result)
+
+
+def test_jenkinsdsl__Handler____call____9(config):
+    """It allows to use notifications in an integration builder."""
+    config_file = config(r"""
+[gocept.jenkinsdsl]
+builder = integration
+notification_credential_id = ci.whq.gocept.com
+""")
+    result = Handler(config_file)()
+    assert result.startswith(CAUTION)
+    assert NOTIFICATION_CLASS in result
+    assert ("notification: new Notification(credential_id: "
+            "'''ci.whq.gocept.com''')" in result)
 
 
 def test_jenkinsdsl__InterpolatableConfigParser__interpolate_section_values_1(

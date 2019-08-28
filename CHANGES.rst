@@ -6,3 +6,5 @@ Change log for gocept.jenkinsdsl
 ================
 
 initial release
+
+Migrate to Github.

@@ -1,0 +1,9 @@
+include .coveragerc
+include buildout.cfg
+include example.ini
+include pytest.ini
+include tox.ini
+
+recursive-include doc *.py
+recursive-include doc *.txt
+recursive-include src *.groovy

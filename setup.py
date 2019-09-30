@@ -33,6 +33,7 @@ setup(
 
     keywords='jenkins DSL job groovy',
     classifiers="""\
+Development Status :: 4 - Beta
 License :: OSI Approved :: Zope Public License
 Programming Language :: Python
 Programming Language :: Python :: 3

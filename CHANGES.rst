@@ -2,9 +2,7 @@
 Change log for gocept.jenkinsdsl
 ================================
 
-0.1 (unreleased)
+1.0 (unreleased)
 ================
 
-initial release
-
-Migrate to Github.
+- Initial release.

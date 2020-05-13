@@ -41,7 +41,7 @@ class GIT implements VersionControlSystem {
                     // }
                     if (this.branch != null ) {
                         configure {
-                            scm -> project / scm / branches {
+                            scm -> scm / scm / branches {
                                 name this.branch
                             }
                         }

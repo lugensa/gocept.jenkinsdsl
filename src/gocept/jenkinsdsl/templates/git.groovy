@@ -27,7 +27,7 @@ class GIT implements VersionControlSystem {
         job.with {
             scm {
                 git(fullurl) {
-                    branch(this.branch)
+                    branches(this.branch)
                     if (this.subdirectory != null) {
                         extensions {
                             relativeTargetDirectory(this.subdirectory)

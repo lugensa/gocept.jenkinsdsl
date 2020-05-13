@@ -40,7 +40,7 @@ Version control system
 ----------------------
 
 vcs
-    VCS used, currently supported ``svn`` or ``hg``
+    VCS used, currently supported ``svn``, ``hg`` or ``git``.
 
 Subversion
 ++++++++++

@@ -41,7 +41,7 @@ class GIT implements VersionControlSystem {
                     // }
                     if (this.branch != null ) {
                         configure {
-                            scm ->  project / 'scm' / branches / 'hudson.plugins.git.BranchSpec' {
+                            scm ->  project {
                                 name this.branch
                             }
                         }

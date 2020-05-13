@@ -34,14 +34,14 @@ class GIT implements VersionControlSystem {
                     }
                     if (this.scm_browser != null){
                         configure {
-                            scm -> scm / browser(class: this.scm_browser) {
+                            scm -> scm / scm / browser(class: this.scm_browser) {
                                 url full_scm_browser_url
                             }
                         }
                     }
                     if (this.branch != null ) {
                         configure {
-                            scm ->  scm / branches / 'hudson.plugins.git.BranchSpec' {
+                            scm ->  scm / scm / branches / 'hudson.plugins.git.BranchSpec' {
                                 name this.branch
                             }
                         }

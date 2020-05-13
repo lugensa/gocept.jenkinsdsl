@@ -39,12 +39,12 @@ class GIT implements VersionControlSystem {
                     //         }
                     //     }
                     // }
-                    if (this.branch != null ) {
-                        configure {
-                            scm -> scm / scm / branches {
-                                name this.branch
-                            }
-                        }
+                }
+            }
+            if (this.branch != null ) {
+                configure {
+                    scm -> project / scm / branches {
+                        name this.branch
                     }
                 }
             }

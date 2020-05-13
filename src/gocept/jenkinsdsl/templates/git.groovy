@@ -27,16 +27,18 @@ class GIT implements VersionControlSystem {
         job.with {
             scm {
                 git(fullurl) {
-                    branches(this.branch)
                     if (this.subdirectory != null) {
                         extensions {
                             relativeTargetDirectory(this.subdirectory)
                         }
                     }
                     if (this.scm_browser != null){
-                        configure{
+                        configure {
                             git -> git / browser(class: this.scm_browser) {
-                            url full_scm_browser_url
+                                url full_scm_browser_url
+                            },
+                            git -> git / branches / 'hudson.plugins.git.BranchSpec' {
+                                name this.branch
                             }
                         }
                     }

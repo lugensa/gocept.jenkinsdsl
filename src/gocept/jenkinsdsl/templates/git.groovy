@@ -32,19 +32,19 @@ class GIT implements VersionControlSystem {
                             relativeTargetDirectory(this.subdirectory)
                         }
                     }
-                    // if (this.scm_browser != null){
-                    //     configure {
-                    //         scm -> project / 'scm' / 'browser'(class: this.scm_browser) {
-                    //             url full_scm_browser_url
-                    //         }
-                    //     }
-                    // }
                 }
             }
             if (this.branch != null ) {
                 configure {
                     project -> project / 'scm' / branches / 'hudson.plugins.git.BranchSpec' {
                         name this.branch
+                    }
+                }
+            }
+            if (this.scm_browser != null){
+                configure {
+                    project -> project / 'scm' / browser(class: this.scm_browser) {
+                        url full_scm_browser_url
                     }
                 }
             }

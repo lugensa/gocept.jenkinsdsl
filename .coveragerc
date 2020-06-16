@@ -4,10 +4,7 @@ source = gocept.jenkinsdsl
 
 [report]
 precision = 2
-omit = */interfaces.py
-       */interfaces/*
-       */tests.py
-       */tests/*
+omit =
 
 [html]
 directory = coverage-report

@@ -18,7 +18,7 @@ NEW_JOBCONFIG = 'new JobConfig'
 NOTIFICATION_CLASS = 'class Notification {'
 
 
-@pytest.fixture('function')
+@pytest.fixture(scope='function')
 def config(tmpdir):
     """Create a config file with the given content."""
     def config(content):

@@ -5,7 +5,7 @@ Change log for gocept.jenkinsdsl
 1.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Use GitHub actions as CI.
 
 
 1.0 (2019-09-30)

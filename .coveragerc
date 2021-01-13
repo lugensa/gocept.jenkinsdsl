@@ -4,7 +4,7 @@ source = gocept.jenkinsdsl
 
 [report]
 precision = 2
-omit =
+fail_under = 97
 
 [html]
 directory = coverage-report

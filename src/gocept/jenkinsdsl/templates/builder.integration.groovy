@@ -56,9 +56,11 @@ class IntegrationBuilder extends AbstractBuilder {
             }
 
             publishers {
-                archiveJunit(this.junit_filename) {
-                    testDataPublishers {
-                        publishTestAttachments()
+                if (this.junit_filename) {
+                    archiveJunit(this.junit_filename) {
+                        testDataPublishers {
+                            publishTestAttachments()
+                        }
                     }
                 }
 

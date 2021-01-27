@@ -1,4 +1,5 @@
-from gocept.jenkinsdsl.jenkinsdsl import Handler, InterpolatableConfigParser
+from gocept.jenkinsdsl.jenkinsdsl import Handler
+from gocept.jenkinsdsl.jenkinsdsl import InterpolatableConfigParser
 from gocept.jenkinsdsl.jenkinsdsl import NestingError
 import pytest
 

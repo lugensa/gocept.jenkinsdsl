@@ -3,7 +3,8 @@
 """Create a DSL script for the Jenkins Job DSL plugin from configuration.
 """
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 import glob
 
 

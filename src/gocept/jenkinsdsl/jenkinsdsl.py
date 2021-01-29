@@ -1,11 +1,12 @@
+from collections import OrderedDict
+from configparser import ConfigParser
+from io import StringIO
 import argparse
+import codecs
 import pkg_resources
 import re
 import sys
-import codecs
-from io import StringIO
-from configparser import ConfigParser
-from collections import OrderedDict
+
 
 parser = argparse.ArgumentParser(
     description='Generate DSL to generate Jenkins jobs.')

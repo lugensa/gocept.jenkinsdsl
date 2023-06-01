@@ -36,21 +36,26 @@ class IntegrationBuilder extends AbstractBuilder {
                 shell(shell_co_solr)
                 shell(shell_clean_env)
                 shell(shell_prepare_bo)
-                virtualenv {
-                    pythonName this.python_name
-                    nature 'shell'
-                    clear false
-                    systemSitePackages false
-                    ignoreExitCode false
-                    command(virtualenv_solr)
+                if (use_shiningpanda){
+                    virtualenv {
+                        pythonName this.python_name
+                        nature 'shell'
+                        clear false
+                        systemSitePackages false
+                        ignoreExitCode false
+                        command(virtualenv_solr)
+                    }
+                    virtualenv {
+                        pythonName this.python_name
+                        nature 'shell'
+                        clear false
+                        systemSitePackages false
+                        ignoreExitCode true
+                        command(virtualenv_instance)
+                    }
                 }
-                virtualenv {
-                    pythonName this.python_name
-                    nature 'shell'
-                    clear false
-                    systemSitePackages false
-                    ignoreExitCode true
-                    command(virtualenv_instance)
+                else {
+                    shell(virtualenv_solr + '\\n' + virtualenv_instance)
                 }
                 shell(shell_shutdown)
             }

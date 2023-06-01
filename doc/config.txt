@@ -167,6 +167,8 @@ integration_timeout
     Time after which the build is aborted in minutes.
 integration_python_name
     Name of the Python installation in the Jenkins global config.
+integration_use_shiningpanda
+    Switch whether to use the shining panda virtualenv. If false, use shell step. This is necessary for Python 3.10+ currently.
 
 integration_junit_filename
     Name of generated JUnit XML file.

@@ -4,6 +4,7 @@ class AbstractBuilder implements Builder {
     def base_commands
     def timeout
     def python_name
+    def use_shiningpanda
 
     def log_days
     def log_builds
@@ -23,15 +24,22 @@ class AbstractBuilder implements Builder {
         def cmds = this.base_commands + '\\n' + commands // \\n escaped for python
 
         job.with {
-            steps{
-                virtualenv {
-                        pythonName this.python_name
-                        nature 'shell'
-                        clear false
-                        systemSitePackages false
-                        ignoreExitCode false
-                        command(cmds)
-                    }
+            if (this.use_shiningpanda){
+                steps{
+                    virtualenv {
+                            pythonName this.python_name
+                            nature 'shell'
+                            clear false
+                            systemSitePackages false
+                            ignoreExitCode false
+                            command(cmds)
+                        }
+                }
+            }
+            else {
+                steps{
+                    shell(cmds)
+                }
             }
 
             wrappers {

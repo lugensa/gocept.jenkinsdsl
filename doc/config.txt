@@ -127,6 +127,9 @@ pytest_timeout
     Time after which the build is aborted in minutes.
 pytest_python_name
     Name of the Python installation in the Jenkins global config.
+pytest_use_shiningpanda
+    Switch whether to use the shining panda virtualenv. If false, use shell step. This is necessary for Python 3.10+ currently.
+
 pytest_base_commands
     The basic buildout commands
 pytest_additional_commands
@@ -218,7 +221,7 @@ matrix_python_names
 matrix_buildout_configs
     List of buildout configs which is turned into an axis and from which the current value can be used by ``$buildout_config`` in the commands later.
 matrix_virtualenv_commands
-    Commands to execute in the buildout.It should contain at least the ``--junitxml`` option to give out test results.
+    Commands to execute in the buildout. It should contain at least the ``--junitxml`` option to give out test results.
 matrix_run_sequentially
     Flag to force sequential run of different matrix configurations.
 

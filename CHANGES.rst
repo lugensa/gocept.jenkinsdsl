@@ -7,6 +7,8 @@ Change log for gocept.jenkinsdsl
 
 - Use GitHub actions as CI.
 
+- Add the option to not use shiningpanda for venv.
+
 - Add support for Python 3.9.
 
 - Drop support for Python 3.6.
